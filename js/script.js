@@ -72,12 +72,9 @@ const addPagination = (list) => {
    buttonList.firstElementChild.className = 'active';
    
    buttonList.addEventListener('click', (e) => {
-      const button = e.target;
-      for (i = 0; i < buttonList.length; i ++) {
-         buttonList[i].className = '';
+      if (e.target === 'BUTTON') {
+      showPage(data, e.target.textContent);
       }
-      e.target.className = 'active';
-      showPage(data, button.textContent);
    });
 
 }

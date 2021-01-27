@@ -69,12 +69,46 @@ const addPagination = (list) => {
       `
       buttonList.insertAdjacentHTML('beforeend',htmlString);
    }
-   buttonList.firstElementChild.className = 'active';
+   buttonList.firstElementChild.firstElementChild.className = 'active';
    
    buttonList.addEventListener('click', (e) => {
-      if (e.target === 'BUTTON') {
+      if (e.target.tagName === 'BUTTON') {
+      document.querySelector('.active').className = '';
+      e.target.className = 'active';
       showPage(data, e.target.textContent);
       }
+   });
+
+}
+
+const addSearchBar = () => {
+   const header = document.querySelector('.header');
+   const searchBar = 
+   `<label for="search" class ="student-search">
+      <input id = 'search' placeholder='search by name...'>
+      <button type='button' id='search-button'><img src='img/icn-search.svg' alt='Search icon'></button>
+    </label>
+   `
+   header.insertAdjacentHTML('beforeend', searchBar);
+}
+
+const searchFilter = (search, data) => {
+   const searchBar = document.querySelector('#search');
+   const searchButton = document.querySelector('#search-button');
+   const newArray = [];
+   
+   for (let i =0; i < data.length; i++) {
+      for (let i = 0; i < data.length; i++) {
+         data[i].className ='';
+         if (search.value.length != 0 && data[i].textContent.toLowerCase()
+             .includes(searchInput.value.toLowerCase())) {
+               filteredArray.push(data[i]);
+             }
+       }
+   }
+   console.log(filteredArray);
+   searchButton.addEventListener('onclick', (e) => {
+      
    });
 
 }
@@ -83,6 +117,10 @@ const addPagination = (list) => {
 
 
 
+
+
 // Call functions
 showPage(data, 1);
 addPagination(data);
+addSearchBar();
+searchFilter('mike', data);

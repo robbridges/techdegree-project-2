@@ -18,14 +18,14 @@ Create the `showPage` function
 This function will create and insert/append the elements needed to display a "page" of nine students
 @Param list {array} the dataset that we are gathering from, and will be displaying
 @param page {number} the number of the page that we want to see;
-Still not working.. I have moved the html element outside and called it and and an object displays. I think it's the second if loop. 
-*/ const showPage = (list, page) => {
+*/ 
+const showPage = (list, page) => {
    const startIndex = (page * 9) - 9; 
    const endIndex = (page * 9);
    const ul = document.querySelector('.student-list');
    ul.innerText = '';
    for (i = 0; i < list.length; i++) {
-      if (list[i] >= startIndex && list[i] < endIndex) {
+      if (i >= startIndex && i < endIndex) {
 
       const htmlElement = 
       ` <li class="student-item cf">
@@ -39,7 +39,7 @@ Still not working.. I have moved the html element outside and called it and and 
          </div>
       </li>
       `;
-   
+
       ul.insertAdjacentHTML("beforeend", htmlElement);
       }
       
@@ -52,9 +52,40 @@ Still not working.. I have moved the html element outside and called it and and 
 /*
 Create the `addPagination` function
 This function will create and insert/append the elements needed for the pagination buttons
+@Param list {array} data set that we are using
+If we don't click on a button but still where the ul list is expected to be, it clears the list, I think this is because we're still clicking in the parameters of hte button list 
+element is, but no page number is being grabbed so showPage(data,null); is called. Will have to work on this in the morning. 
 */
+const addPagination = (list) => {
+   const maxPageNumber = Math.ceil(list.length / 9);
+   const buttonList = document.querySelector('.link-list');
+   buttonList.innerHTML ='';
+   for (i=0; i < maxPageNumber; i++) {
+      const htmlString =
+      `
+         <li>
+            <button type='button'>${[i + 1]}</button>
+         </li>   
+      `
+      buttonList.insertAdjacentHTML('beforeend',htmlString);
+   }
+   buttonList.firstElementChild.className = 'active';
+   
+   buttonList.addEventListener('click', (e) => {
+      const button = e.target;
+      for (i = 0; i < buttonList.length; i ++) {
+         buttonList[i].className = '';
+      }
+      e.target.className = 'active';
+      showPage(data, button.textContent);
+   });
+
+}
+
+
 
 
 
 // Call functions
 showPage(data, 1);
+addPagination(data);

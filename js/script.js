@@ -16,43 +16,32 @@ For assistance:
 /*
 Create the `showPage` function
 This function will create and insert/append the elements needed to display a "page" of nine students
+@Param list {array} the dataset that we are pulling from to create the first list. 
+@Param page {number} the page number that we are trying to display.
 */ const showPage = (list, page) => {
    const startIndex = (page * 9) - 9; 
    const endIndex = (page * 9);
-   const ul = document.querySelector('.student-list');
-   ul.innerHTML = '';
+   const studentPage = document.querySelector('.student-list');
+   studentPage.innerText = '';
    for (i = 0; i < list.length; i++) {
       if (list[i] >= startIndex && list[i] < endIndex) {
-         const li = document.createElement('li');
-         li.className ='student-item cf';
-         const studentDiv = document.createElement('div');
-         studentDiv.className = 'student-details';
-         const avatar = document.createElement('img');
-         avatar.className = 'avatar';
-         avatar.src = list[i].email;
-         const studentName = createElement('h3');
-         studentName.textContext = `${list[i].title} ${list[i].first} ${list[i].last}`;
-         const emailSpan = document.createElement('span');
-         emailSpan.className = 'email';
-         emailSpan.textContent = list[i].email;
-         const joinedDiv = document.createElement('div');
-         joinedDiv.className = 'joined-details';
-         const joinedSpan = document.createElement('span');
-         joinedSpan.className = 'date';
-         joinedSpan.innerText = `Joined ${list[i].registered.date}`;
-         ul.appendChild(li);
-         li.appendChild(studentDiv);
-         studentDiv.appendChild(avatar);
-         studentDiv.appendChild(studentName);
-         studentDiv.appendChild(emailSpan);
-         li.appendChild(joinedDiv);
-         joinedDiv.appendChild(joinedSpan);
 
-         
-         
-
+      const htmlElement = 
+      ` 
+      <li class="student-item cf">
+         <div class="student-details">
+            <img class="avatar" src="${list[i].picture.large}" alt="Profile Picture">
+            <h3 class="name"> ${list[i].name.first} ${list[i].name.last}</h3>
+            <span class="email">${list[i].email}</span>
+         </div>
+         <div class="joined-details">
+            <span class="date">${list[i].registered.date}</span>
+         </div>
+      </li>
+      `;
+      studentPage.insertAdjacentHTML("beforeend", htmlElement);
       }
-
+      
    }
 }
 
@@ -67,3 +56,4 @@ This function will create and insert/append the elements needed for the paginati
 
 
 // Call functions
+showPage(data, 1);

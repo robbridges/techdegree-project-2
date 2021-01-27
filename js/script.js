@@ -19,8 +19,8 @@ This function will create and insert/append the elements needed to display a "pa
 */ const showPage = (list, page) => {
    const startIndex = (page * 9) - 9; 
    const endIndex = (page * 9);
-   const list = document.querySelector('.student-list');
-   list.innerHTML = '';
+   const ul = document.querySelector('.student-list');
+   ul.innerHTML = '';
    for (i = 0; i < list.length; i++) {
       if (list[i] >= startIndex && list[i] < endIndex) {
          const li = document.createElement('li');
@@ -40,12 +40,22 @@ This function will create and insert/append the elements needed to display a "pa
          const joinedSpan = document.createElement('span');
          joinedSpan.className = 'date';
          joinedSpan.innerText = `Joined ${list[i].registered.date}`;
-         list.appendChild(li);
+         ul.appendChild(li);
+         li.appendChild(studentDiv);
+         studentDiv.appendChild(avatar);
+         studentDiv.appendChild(studentName);
+         studentDiv.appendChild(emailSpan);
+         li.appendChild(joinedDiv);
+         joinedDiv.appendChild(joinedSpan);
+
+         
+         
 
       }
 
    }
 }
+
 
 
 

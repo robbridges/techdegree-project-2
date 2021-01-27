@@ -23,8 +23,27 @@ This function will create and insert/append the elements needed to display a "pa
    list.innerHTML = '';
    for (i = 0; i < list.length; i++) {
       if (list[i] >= startIndex && list[i] < endIndex) {
-         
+         const li = document.createElement('li');
+         li.className ='student-item cf';
+         const studentDiv = document.createElement('div');
+         studentDiv.className = 'student-details';
+         const avatar = document.createElement('img');
+         avatar.className = 'avatar';
+         avatar.src = list[i].email;
+         const studentName = createElement('h3');
+         studentName.textContext = `${list[i].title} ${list[i].first} ${list[i].last}`;
+         const emailSpan = document.createElement('span');
+         emailSpan.className = 'email';
+         emailSpan.textContent = list[i].email;
+         const joinedDiv = document.createElement('div');
+         joinedDiv.className = 'joined-details';
+         const joinedSpan = document.createElement('span');
+         joinedSpan.className = 'date';
+         joinedSpan.innerText = `Joined ${list[i].registered.date}`;
+         list.appendChild(li);
+
       }
+
    }
 }
 

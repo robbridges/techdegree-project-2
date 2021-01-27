@@ -16,19 +16,19 @@ For assistance:
 /*
 Create the `showPage` function
 This function will create and insert/append the elements needed to display a "page" of nine students
-@Param list {array} the dataset that we are pulling from to create the first list. 
-@Param page {number} the page number that we are trying to display.
+@Param list {array} the dataset that we are gathering from, and will be displaying
+@param page {number} the number of the page that we want to see;
+Still not working.. I have moved the html element outside and called it and and an object displays. I think it's the second if loop. 
 */ const showPage = (list, page) => {
    const startIndex = (page * 9) - 9; 
    const endIndex = (page * 9);
-   const studentPage = document.querySelector('.student-list');
-   studentPage.innerText = '';
+   const ul = document.querySelector('.student-list');
+   ul.innerText = '';
    for (i = 0; i < list.length; i++) {
       if (list[i] >= startIndex && list[i] < endIndex) {
 
       const htmlElement = 
-      ` 
-      <li class="student-item cf">
+      ` <li class="student-item cf">
          <div class="student-details">
             <img class="avatar" src="${list[i].picture.large}" alt="Profile Picture">
             <h3 class="name"> ${list[i].name.first} ${list[i].name.last}</h3>
@@ -39,7 +39,8 @@ This function will create and insert/append the elements needed to display a "pa
          </div>
       </li>
       `;
-      studentPage.insertAdjacentHTML("beforeend", htmlElement);
+   
+      ul.insertAdjacentHTML("beforeend", htmlElement);
       }
       
    }

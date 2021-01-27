@@ -17,8 +17,7 @@ For assistance:
 Create the `showPage` function
 This function will create and insert/append the elements needed to display a "page" of nine students
 @Param list {array} the dataset that we are gathering from, and will be displaying
-@param page {number} the number of the page that we want to see
-We then create with a template literal our HTML variable to append, and insert it at the end. 
+@param page {number} the number of the page that we want to see;
 */ 
 const showPage = (list, page) => {
    const startIndex = (page * 9) - 9; 
@@ -47,12 +46,15 @@ const showPage = (list, page) => {
    }
 }
 
+
+
+
 /*
 Create the `addPagination` function
 This function will create and insert/append the elements needed for the pagination buttons
 @Param list {array} data set that we are using
-We also check to make sure that the event that was clicked on was a button, and not the div that wraps it, which would lead to a blank pagination
-
+We also make sure that the event target is a button, so that we can call the showPage function. Before this, if the div area was clicked on, the results would be passed in as null
+and return no results. 
 */
 const addPagination = (list) => {
    const maxPageNumber = Math.ceil(list.length / 9);
@@ -78,7 +80,52 @@ const addPagination = (list) => {
    });
 
 }
+/*
+@Param data {array} the data that we are working with or any data set would work
+we are going to filter through the results and return results in the search criteria is contained in the students first Name. There is an event listener attached to search button
+that fires to return a new filtered array that contains our matches to the first time, then displays those results to the page, and paginates them accordingly
+We check to make sure the filtered array is not empty before we paginate so that we do not get any errors regarding an object not existing.
+*/
+const addSearchBar = (data) => {
+   const header = document.querySelector('.header');
+   const searchBar = 
+   `<label for="search" class ="student-search">
+      <input id = 'search' placeholder='search by name...'>
+      <button type='button' id='search-button'><img src='img/icn-search.svg' alt='Search icon'></button>
+    </label>
+   `
+   const searchResultsMessage = document.createElement('h2');
+   header.insertAdjacentHTML('beforeend', searchBar);
+   const searchButton = document.querySelector("#search-button");
+   // event lister for the search button being used will find if the searched value is contained in 
+   searchButton.addEventListener('click', (e) => {
+      searchResultsMessage.innerHTML = '';
+      const searchInput = document.querySelector('#search');
+      const searchText = searchInput.value;
+      searchInput.value = '';
+      const filteredArray = [];
+      for (let i = 0; i < data.length; i++) {
+         if (data[i].name.first.toLowerCase().includes(searchText.toLowerCase())) {
+            filteredArray.push(data[i]);
+         }
+         
+      }
+      if (filteredArray.length !== 0) {
+         showPage(filteredArray, 1);
+         addPagination(filteredArray);
+      } else {
+         searchResultsMessage.innerHTML = `<h2 style="color:red;">Your search for ${searchText} returned no results, please view our students profiles below </h2> <br>`;  
+         const pageDiv = document.querySelector('.page');     
+         const studentList = document.querySelector('.student-list');
+         pageDiv.insertBefore(searchResultsMessage, studentList);
+         showPage(data, 1);
+         addPagination(data);
 
+      }
+      
+   });
+}
 // Call functions
 showPage(data, 1);
 addPagination(data);
+addSearchBar(data);

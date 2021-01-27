@@ -17,7 +17,8 @@ For assistance:
 Create the `showPage` function
 This function will create and insert/append the elements needed to display a "page" of nine students
 @Param list {array} the dataset that we are gathering from, and will be displaying
-@param page {number} the number of the page that we want to see;
+@param page {number} the number of the page that we want to see
+We then create with a template literal our HTML variable to append, and insert it at the end. 
 */ 
 const showPage = (list, page) => {
    const startIndex = (page * 9) - 9; 
@@ -46,15 +47,12 @@ const showPage = (list, page) => {
    }
 }
 
-
-
-
 /*
 Create the `addPagination` function
 This function will create and insert/append the elements needed for the pagination buttons
 @Param list {array} data set that we are using
-If we don't click on a button but still where the ul list is expected to be, it clears the list, I think this is because we're still clicking in the parameters of hte button list 
-element is, but no page number is being grabbed so showPage(data,null); is called. Will have to work on this in the morning. 
+We also check to make sure that the event that was clicked on was a button, and not the div that wraps it, which would lead to a blank pagination
+
 */
 const addPagination = (list) => {
    const maxPageNumber = Math.ceil(list.length / 9);
@@ -81,46 +79,6 @@ const addPagination = (list) => {
 
 }
 
-const addSearchBar = () => {
-   const header = document.querySelector('.header');
-   const searchBar = 
-   `<label for="search" class ="student-search">
-      <input id = 'search' placeholder='search by name...'>
-      <button type='button' id='search-button'><img src='img/icn-search.svg' alt='Search icon'></button>
-    </label>
-   `
-   header.insertAdjacentHTML('beforeend', searchBar);
-}
-
-const searchFilter = (search, data) => {
-   const searchBar = document.querySelector('#search');
-   const searchButton = document.querySelector('#search-button');
-   const newArray = [];
-   
-   for (let i =0; i < data.length; i++) {
-      for (let i = 0; i < data.length; i++) {
-         data[i].className ='';
-         if (search.value.length != 0 && data[i].textContent.toLowerCase()
-             .includes(searchInput.value.toLowerCase())) {
-               filteredArray.push(data[i]);
-             }
-       }
-   }
-   console.log(filteredArray);
-   searchButton.addEventListener('onclick', (e) => {
-      
-   });
-
-}
-
-
-
-
-
-
-
 // Call functions
 showPage(data, 1);
 addPagination(data);
-addSearchBar();
-searchFilter('mike', data);

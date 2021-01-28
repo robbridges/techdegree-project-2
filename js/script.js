@@ -24,7 +24,7 @@ const showPage = (list, page) => {
    const endIndex = (page * 9);
    const ul = document.querySelector('.student-list');
    ul.innerText = '';
-   for (i = 0; i < list.length; i++) {
+   for ( let i = 0; i < list.length; i++) {
       if (i >= startIndex && i < endIndex) {
 
       const htmlElement = 
@@ -60,7 +60,7 @@ const addPagination = (list) => {
    const maxPageNumber = Math.ceil(list.length / 9);
    const buttonList = document.querySelector('.link-list');
    buttonList.innerHTML ='';
-   for (i=0; i < maxPageNumber; i++) {
+   for ( let i=0; i < maxPageNumber; i++) {
       const htmlString =
       `
          <li>

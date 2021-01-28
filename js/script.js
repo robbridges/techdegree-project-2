@@ -15,7 +15,8 @@ For assistance:
 
 /*
 Create the `showPage` function
-This function will create and insert/append the elements needed to display a "page" of nine students
+This function will create and insert/append the elements needed to display a "page" of nine students if no results are found in the list parameter it displays no students found.
+Otherwise it happily displays it's results.
 @Param list {array} the dataset that we are gathering from, and will be displaying
 @param page {number} the number of the page that we want to see;
 */ 
@@ -24,6 +25,10 @@ const showPage = (list, page) => {
    const endIndex = (page * 9);
    const ul = document.querySelector('.student-list');
    ul.innerText = '';
+   if(list.length == 0) {
+      const noResultsHTML = `<p> No students matched your results, please search again<p>`
+      ul.insertAdjacentHTML("beforeend", noResultsHTML);
+   }
    for ( let i = 0; i < list.length; i++) {
       if (i >= startIndex && i < endIndex) {
 
@@ -75,16 +80,16 @@ const addPagination = (list) => {
       if (e.target.tagName === 'BUTTON') {
       document.querySelector('.active').className = '';
       e.target.className = 'active';
-      showPage(data, e.target.textContent);
+      showPage(list, e.target.textContent);
       }
    });
 
 }
 /*
 @Param data {array} the data that we are working with or any data set would work
-we are going to filter through the results and return results in the search criteria is contained in the students first Name. There is an event listener attached to search button
-that fires to return a new filtered array that contains our matches to the first time, then displays those results to the page, and paginates them accordingly
-We check to make sure the filtered array is not empty before we paginate so that we do not get any errors regarding an object not existing.
+we are going to filter through the results and return results in the search criteria is contained in the students first Name. 
+There are two event listeners, one that allows the search button to be used, and one that dynamically shows the results as their inputted, we wrapped
+the functionality that they both use into a function called search, since both really do the same thing and repeating that quote twice seemed wrong. 
 */
 const search = (data) => {
    const header = document.querySelector('.header');
@@ -96,33 +101,28 @@ const search = (data) => {
    `
    header.insertAdjacentHTML('beforeend', searchBar);
    const searchButton = document.querySelector("#search-button");
-   const searchResultsMessage = document.createElement('h2');
-   // event lister for the search button being used will find if the searched value is contained in 
-   searchButton.addEventListener('click', (e) => {
-      searchResultsMessage.innerHTML = '';
-      const searchInput = document.querySelector('#search');
-      const searchText = searchInput.value;
-      searchInput.value = '';
+   const searchField = (document.querySelector('#search'));
+   const search = () => {
+      const searchText = searchField.value;
+      searchText.value = '';
       const filteredArray = [];
       for (let i = 0; i < data.length; i++) {
-         if (data[i].name.first.toLowerCase().includes(searchText.toLowerCase())) {
+         if (data[i].name.first.toLowerCase().includes(searchText.toLowerCase()) || data[i].name.last.toLowerCase().includes(searchText.toLowerCase())) {
             filteredArray.push(data[i]);
          }
          
       }
-      if (filteredArray.length !== 0) {
-         showPage(filteredArray, 1);
-         addPagination(filteredArray);
-      } else {
-         searchResultsMessage.innerHTML = `<h2 style="color:red;">Your search for ${searchText} returned no results, please view our students profiles below </h2> <br>`;  
-         const pageDiv = document.querySelector('.page');     
-         const studentList = document.querySelector('.student-list');
-         pageDiv.insertBefore(searchResultsMessage, studentList);
-         showPage(data, 1);
-         addPagination(data);
+      showPage(filteredArray,1);
+      addPagination(filteredArray);
+   }
+   // event listers for both clicking the button and dynamically typing. We wrapped the fuctionality of it into a function since both event listers did the same thing
+   searchButton.addEventListener('click', e => {
+      e.preventDefault();
+      search();
+   });
 
-      }
-      
+   searchField.addEventListener('keyup', e => {
+      search();
    });
 }
 // Call functions

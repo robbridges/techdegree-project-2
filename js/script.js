@@ -86,7 +86,7 @@ we are going to filter through the results and return results in the search crit
 that fires to return a new filtered array that contains our matches to the first time, then displays those results to the page, and paginates them accordingly
 We check to make sure the filtered array is not empty before we paginate so that we do not get any errors regarding an object not existing.
 */
-const addSearchBar = (data) => {
+const search = (data) => {
    const header = document.querySelector('.header');
    const searchBar = 
    `<label for="search" class ="student-search">
@@ -94,9 +94,9 @@ const addSearchBar = (data) => {
       <button type='button' id='search-button'><img src='img/icn-search.svg' alt='Search icon'></button>
     </label>
    `
-   const searchResultsMessage = document.createElement('h2');
    header.insertAdjacentHTML('beforeend', searchBar);
    const searchButton = document.querySelector("#search-button");
+   const searchResultsMessage = document.createElement('h2');
    // event lister for the search button being used will find if the searched value is contained in 
    searchButton.addEventListener('click', (e) => {
       searchResultsMessage.innerHTML = '';
@@ -128,4 +128,4 @@ const addSearchBar = (data) => {
 // Call functions
 showPage(data, 1);
 addPagination(data);
-addSearchBar(data);
+search(data);

@@ -16,7 +16,6 @@ For assistance:
 /*
 Create the `showPage` function
 This function will create and insert/append the elements needed to display a "page" of nine students if no results are found in the list parameter it displays no students found.
-Otherwise it happily displays it's results.
 @Param list {array} the dataset that we are gathering from, and will be displaying
 @param page {number} the number of the page that we want to see;
 */ 
@@ -58,8 +57,7 @@ const showPage = (list, page) => {
 Create the `addPagination` function
 This function will create and insert/append the elements needed for the pagination buttons
 @Param list {array} data set that we are using
-We also make sure that the event target is a button, so that we can call the showPage function. Before this, if the div area was clicked on, the results would be passed in as null
-and return no results. 
+We also add an event listener to display a different page of the data object passed in
 */
 const addPagination = (list) => {
    const maxPageNumber = Math.ceil(list.length / 9);
@@ -74,7 +72,9 @@ const addPagination = (list) => {
       `
       buttonList.insertAdjacentHTML('beforeend',htmlString);
    }
-   buttonList.firstElementChild.firstElementChild.className = 'active';
+   if (buttonList.firstElementChild !== null) {
+      buttonList.firstElementChild.firstElementChild.className = 'active';
+   }
    
    buttonList.addEventListener('click', (e) => {
       if (e.target.tagName === 'BUTTON') {
@@ -87,9 +87,7 @@ const addPagination = (list) => {
 }
 /*
 @Param data {array} the data that we are working with or any data set would work
-we are going to filter through the results and return results in the search criteria is contained in the students first Name. 
-There are two event listeners, one that allows the search button to be used, and one that dynamically shows the results as their inputted, we wrapped
-the functionality that they both use into a function called search, since both really do the same thing and repeating that quote twice seemed wrong. 
+Fuction creates and writes search bar to the DOM. Also has two event listeners that both perform this search function 
 */
 const search = (data) => {
    const header = document.querySelector('.header');
@@ -102,7 +100,7 @@ const search = (data) => {
    header.insertAdjacentHTML('beforeend', searchBar);
    const searchButton = document.querySelector("#search-button");
    const searchField = (document.querySelector('#search'));
-   const search = () => {
+   const searchFilter = () => {
       const searchText = searchField.value;
       searchText.value = '';
       const filteredArray = [];
@@ -118,11 +116,11 @@ const search = (data) => {
    // event listers for both clicking the button and dynamically typing. We wrapped the fuctionality of it into a function since both event listers did the same thing
    searchButton.addEventListener('click', e => {
       e.preventDefault();
-      search();
+      searchFilter();
    });
 
    searchField.addEventListener('keyup', e => {
-      search();
+      searchFilter();
    });
 }
 // Call functions

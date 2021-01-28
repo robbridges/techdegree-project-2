@@ -113,7 +113,7 @@ const search = (data) => {
       showPage(filteredArray,1);
       addPagination(filteredArray);
    }
-   // event listers for both clicking the button and dynamically typing. We wrapped the fuctionality of it into a function since both event listers did the same thing
+   // two event listeners below, performing the same fuction wrapped in the searchFilter fuction.
    searchButton.addEventListener('click', e => {
       e.preventDefault();
       searchFilter();
